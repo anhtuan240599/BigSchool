@@ -105,5 +105,7 @@ namespace Tuan_Lab456
         {
             return new ApplicationSignInManager(context.GetUserManager<ApplicationUserManager>(), context.Authentication);
         }
+
+       
     }
 }
