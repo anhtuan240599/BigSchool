@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using Tuan_Lab456.Models;
 using System.Data.Entity;
+using Tuan_Lab456.ViewModels;
 
 namespace Tuan_Lab456.Controllers
 {
@@ -21,8 +22,15 @@ namespace Tuan_Lab456.Controllers
                 .Include(c => c.Lecturer)
                 .Include(c => c.Category)
                 .Where(c => c.DateTime > DateTime.Now);
-            
-            return View(upcommingCourses);
+            var viewModel = new CoursesViewModel
+            {
+                UpcommingCourses = upcommingCourses,
+                ShowAction = User.Identity.IsAuthenticated
+                //Followings = _dbContext.Followings.Where(f => userId != null && f.FolloweeId == userId).ToList(),
+                //Attendances = _dbContext.Attendances.Include(a => a.Course).ToList()
+
+            };
+            return View(viewModel);
         }
 
         public ActionResult About()
