@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Http;
@@ -36,21 +37,42 @@ namespace Tuan_Lab456.Controllers
             _dbContext.Followings.Add(following);
             _dbContext.SaveChanges();
 
-            //following = _dbContext.Followings
-            //    .Where(x => x.FolloweeId == followingDto.FolloweeId && x.FollowerId == userId)
-            //    .Include(x => x.Followee)
-            //    .Include(x => x.Follower).SingleOrDefault();
+            following = _dbContext.Followings
+                .Where(x => x.FolloweeId == followingDto.FolloweeId && x.FollowerId == userId)
+                .Include(x => x.Followee)
+                .Include(x => x.Follower).SingleOrDefault();
 
-            //var followingNotification = new FollowingNotification()
-            //{
-            //    Id = 0,
-            //    Logger = following.Follower.Name + " following " + following.Followee.Name
-            //};
-            //_dbContext.FollowingNotifications.Add(followingNotification);
-            //_dbContext.SaveChanges();
+            var followingNotification = new FollowingNotification()
+            {
+                Id = 0,
+                Logger = following.Follower.Name + " following " + following.Followee.Name
+            };
+            _dbContext.FollowingNotifications.Add(followingNotification);
+            _dbContext.SaveChanges();
 
 
             return Ok();
         }
+        //[HttpDelete]
+        //public IHttpActionResult UnFollow(string followeeId, string followerId)
+        //{
+        //    var follow = _dbContext.Followings
+        //        .Where(x => x.FolloweeId == followeeId && x.FollowerId == followerId)
+        //        .Include(x => x.Followee)
+        //        .Include(x => x.Follower).SingleOrDefault();
+
+        //    var followingNotification = new FollowingNotification()
+        //    {
+        //        Id = 0,
+        //        Logger = follow.Follower.Name + " unfollow " + follow.Followee.Name
+        //    };
+
+        //    _dbContext.FollowingNotifications.Add(followingNotification);
+
+        //    _dbContext.Followings.Remove(follow);
+        //    _dbContext.SaveChanges();
+        //    return Ok();
+        //}
+
     }
 }

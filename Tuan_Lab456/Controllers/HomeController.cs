@@ -6,6 +6,8 @@ using System.Web.Mvc;
 using Tuan_Lab456.Models;
 using System.Data.Entity;
 using Tuan_Lab456.ViewModels;
+using Microsoft.AspNet.Identity;
+
 
 namespace Tuan_Lab456.Controllers
 {
@@ -18,14 +20,11 @@ namespace Tuan_Lab456.Controllers
         }
         public ActionResult Index()
         {
-            var upcommingCourses = _dbContext.Courses
-                .Include(c => c.Lecturer)
-                .Include(c => c.Category)
-                .Where(c => c.DateTime > DateTime.Now);
+            var upcommingCourses = _dbContext.Courses.Include(c => c.Lecturer).Include(c => c.Category).Where(c => c.DateTime > DateTime.Now);
             var viewModel = new CoursesViewModel
             {
                 UpcommingCourses = upcommingCourses,
-                ShowAction = User.Identity.IsAuthenticated
+                ShowAction = User.Identity.IsAuthenticated,
                 //Followings = _dbContext.Followings.Where(f => userId != null && f.FolloweeId == userId).ToList(),
                 //Attendances = _dbContext.Attendances.Include(a => a.Course).ToList()
 

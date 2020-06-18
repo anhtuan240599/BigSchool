@@ -21,5 +21,7 @@ namespace Tuan_Lab456.Models
         [Required]
         public byte CategoryId { get; set; }
 
+        public bool IsCanceled { get; set; }
+
     }
 }
